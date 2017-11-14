@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_phone;
     private ListView lv;
     private StudentDao dao;
+    private PhoneCall call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
             tv_item_phone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PhoneCall call = new PhoneCall(tv_item_phone,MainActivity.this);
-                    call.checkPermission(v);
+                    call = new PhoneCall(tv_item_phone,MainActivity.this);
+                    call.checkPermission();
                 }
             });
 
@@ -135,12 +137,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 1){
             if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
-               // callPhone();
+               call.checkPermission();
             }else {
-                Toast.makeText(MainActivity.this,"PREMISSIOM",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"PREMISSIOM refusé",Toast.LENGTH_SHORT).show();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

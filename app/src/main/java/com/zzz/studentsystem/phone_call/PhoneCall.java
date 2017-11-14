@@ -38,7 +38,7 @@ public class PhoneCall extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    public void checkPermission(View view){
+    public void checkPermission(){
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)!=
                 PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.CALL_PHONE},
@@ -48,15 +48,4 @@ public class PhoneCall extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_PHONE){
-            if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                callPhone();
-            }else {
-                Toast.makeText(context,"PREMISSIOM",Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 }
