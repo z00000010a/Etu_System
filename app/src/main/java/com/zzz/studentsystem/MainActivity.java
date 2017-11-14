@@ -1,6 +1,8 @@
 package com.zzz.studentsystem;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,8 +16,11 @@ import android.widget.Toast;
 
 import com.zzz.studentsystem.database.StudentDao;
 import com.zzz.studentsystem.domain.StudentInfo;
+import com.zzz.studentsystem.phone_call.PhoneCall;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private EditText et_id;
@@ -45,18 +50,36 @@ public class MainActivity extends AppCompatActivity {
         String name = et_name.getText().toString().trim();
         String phone = et_phone.getText().toString().trim();
 
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher matcher_studentid = pattern.matcher(phone);
+        Matcher matcher_phone = pattern.matcher(phone);
+        if (!matcher_phone.matches()||!matcher_studentid.matches()){
+            Toast.makeText(MainActivity.this,"输入正确的格式",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (TextUtils.isEmpty(id)||TextUtils.isEmpty(name)||TextUtils.isEmpty(phone)){
             Toast.makeText(MainActivity.this,"数据不能为空",Toast.LENGTH_SHORT).show();
             return;
         }else{
+
             StudentInfo info = new StudentInfo();
             info.setId(Integer.valueOf(id));
             info.setPhone(phone);
             info.setName(name);
+
+            if (dao.getStudentInfo(id).get("studentid")!=null){
+                Toast.makeText(MainActivity.this,"id冲突",Toast.LENGTH_SHORT).show();
+            }else if(dao.getStudentInfo(name).get("name")!=null){
+                Toast.makeText(MainActivity.this,"name冲突",Toast.LENGTH_SHORT).show();
+            }else if (dao.getStudentInfo(phone).get("phone")!=null){
+                Toast.makeText(MainActivity.this,"phone冲突",Toast.LENGTH_SHORT).show();
+            }else{
             boolean result = dao.add(info);
             if (result){
                 Toast.makeText(MainActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                 lv.setAdapter(new MyAdapter());
+                }
             }
         }
     }
@@ -68,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             View view = View.inflate(MainActivity.this,R.layout.item,null);
             TextView tv_item_id = (TextView) view.findViewById(R.id.tv_item_id);
             TextView tv_item_name = (TextView) view.findViewById(R.id.tv_item_name);
-            TextView tv_item_phone = (TextView) view.findViewById(R.id.tv_item_phone);
+            final TextView tv_item_phone = (TextView) view.findViewById(R.id.tv_item_phone);
             ImageView iv_delete = (ImageView) view.findViewById(R.id.iv_delete);
             final Map<String,String> map = dao.getStudentInfo(position);
             iv_delete.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                     }
                     lv.setAdapter(new MyAdapter());
+                }
+            });
+            tv_item_phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PhoneCall call = new PhoneCall(tv_item_phone,MainActivity.this);
+                    call.checkPermission(v);
                 }
             });
 
@@ -103,5 +133,16 @@ public class MainActivity extends AppCompatActivity {
         public long getItemId(int position) {
             return position;
         }
+
+    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1){
+            if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+               // callPhone();
+            }else {
+                Toast.makeText(MainActivity.this,"PREMISSIOM",Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

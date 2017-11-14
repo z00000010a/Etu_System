@@ -75,6 +75,49 @@ public class StudentDao {
         return result;
     }
 
+    public Map<String, String> getStudentInfo(String info){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        HashMap<String, String> result = new HashMap<>();
+
+        Cursor cursor2 = db.query("info",new String[]{"studentid","name","phone"},"name=?",new String[]{info},null,null,null);
+        if (cursor2.moveToNext()){
+            String r_studentid = cursor2.getString(0);
+            String r_name = cursor2.getString(1);
+            String r_phone = cursor2.getString(2);
+            result.put("confilctInfo","Student name");
+            result.put("name",r_name);
+            result.put("phone",r_phone);
+            result.put("studentid",r_studentid);
+        }
+
+        Cursor cursor3 = db.query("info",new String[]{"studentid","name","phone"},"phone=?",new String[]{info},null,null,null);
+        if (cursor3.moveToNext()){
+            String r_studentid = cursor3.getString(0);
+            String r_name = cursor3.getString(1);
+            String r_phone = cursor3.getString(2);
+            result.put("confilctInfo","Phone");
+            result.put("name",r_name);
+            result.put("phone",r_phone);
+            result.put("studentid",r_studentid);
+        }
+
+        Cursor cursor1 = db.query("info",new String[]{"studentid","name","phone"},"studentid=?",new String[]{info},null,null,null);
+        if (cursor1.moveToNext()){
+            String r_studentid = cursor1.getString(0);
+            String r_name = cursor1.getString(1);
+            String r_phone = cursor1.getString(2);
+            result.put("confilctInfo","Student id");
+            result.put("name",r_name);
+            result.put("phone",r_phone);
+            result.put("studentid",r_studentid);
+        }
+
+        return result;
+
+
+    }
+
+
     public int getTotalCount(){
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query("info",null,null,null,null,null,null);
@@ -98,7 +141,7 @@ public class StudentDao {
             }
             cursor.close();
             db.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception e)  {
             db.endTransaction();
             db.close();
         }
