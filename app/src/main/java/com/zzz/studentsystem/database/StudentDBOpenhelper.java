@@ -16,8 +16,7 @@ public class StudentDBOpenhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table note (_id integer primary key autoincrement , studentid varchar(20) , note varchar(300));");
-        db.execSQL("create table info (_id integer primary key autoincrement, studentid varchar(20), name varchar(20), phone varchar(20));");
+        db.execSQL("create table info (_id integer primary key autoincrement, studentid varchar(20), name varchar(20), phone varchar(20), note varchar(50));");
     }
 
     @Override

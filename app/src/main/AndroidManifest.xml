@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.zzz.studentsystem.note.NoteEd"></activity>
+        <activity android:name="com.zzz.studentsystem.login.Login"></activity>
     </application>
 
 </manifest>

@@ -28,18 +28,19 @@ public class StudentDao {
      * @param phone
      * @return
      */
-    public boolean add(String Studentid, String name, String phone){
+    public boolean add(String Studentid, String name, String phone, String note){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("studentid",Studentid);
         values.put("name",name);
         values.put("phone",phone);
+        values.put("note",note);
         long row = db.insert("info",null,values);
         db.close();
         return row == -1?false : true;
     }
     public boolean add(StudentInfo info){
-        return add(String.valueOf(info.getId()),info.getName(),info.getPhone());
+        return add(String.valueOf(info.getId()),info.getName(),info.getPhone(),info.getNote());
     }
 
     /**
@@ -145,5 +146,29 @@ public class StudentDao {
             db.endTransaction();
             db.close();
         }
+    }
+    public int updateNote(String studentid, String note){
+        System.out.println("开始更新note");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        System.out.println("note: "+note+" id "+studentid);
+        values.put("note",note);
+        int row = db.update("info",values,"studentid=?",new String[]{studentid});
+        System.out.println("更新完成");
+        System.out.println("数据："+queryNote(studentid));
+        db.close();
+        return row;
+    }
+
+    public String queryNote(String studentid){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String note = null;
+        Cursor cursor = db.query("info", new String[]{"note"},"studentid=?",new String[]{studentid},null,null,null);
+        if (cursor.moveToNext()){
+            note=cursor.getString(0);
+            System.out.println("note!!!!!!!"+note);
+        }
+        db.close();
+        return note;
     }
 }

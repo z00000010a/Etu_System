@@ -5,9 +5,18 @@ package com.zzz.studentsystem.domain;
  */
 
 public class StudentInfo {
-     private Integer id;
+    private Integer id;
     private String name;
     private String phone;
+    private String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public Integer getId() {
         return id;

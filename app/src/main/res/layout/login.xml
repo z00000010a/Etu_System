@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"
+                android:background="#dde1ee" >
+
+    <ImageView
+        android:id="@+id/myImage"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dip"
+        android:background="@drawable/utt"/>
+
+    <EditText
+        android:id="@+id/qqNum"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_below="@id/myImage"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginTop="15dip"
+        android:background="@android:color/background_light"
+        android:inputType="number"
+        android:paddingLeft="50dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="账号"
+        android:textSize="8pt"
+        android:textColor="@android:color/darker_gray"
+        android:layout_alignLeft="@id/qqNum"
+        android:layout_alignTop="@id/qqNum"
+        android:layout_marginTop="9dip"
+        android:layout_marginLeft="3dip"
+        android:id="@+id/textView5"/>
+
+    <EditText
+        android:id="@+id/qqPassword"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        android:background="@android:color/background_light"
+        android:paddingLeft="50dip"
+        android:layout_below="@+id/qqNum"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/delete_button_edit"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="密码"
+        android:textSize="8pt"
+        android:textColor="@android:color/darker_gray"
+        android:layout_alignLeft="@id/qqPassword"
+        android:layout_alignTop="@id/qqPassword"
+        android:layout_marginTop="9dip"
+        android:layout_marginLeft="3dip"/>
+
+    <ImageButton
+        android:id="@+id/delete_button_edit"
+        android:layout_width="18dip"
+        android:layout_height="18dip"
+        android:layout_marginBottom="8dip"
+        android:layout_marginRight="3dip"
+        android:layout_alignBottom="@+id/qqNum"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/qqLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
+        android:layout_alignLeft="@id/qqNum"
+        android:layout_alignRight="@id/qqNum"
+        android:layout_below="@id/qqPassword"
+        android:layout_marginTop="20dip"
+
+        android:background="@android:color/holo_blue_dark"
+        android:text="登录"
+        android:textColor="?attr/colorButtonNormal"/>
+
+    <TextView
+        android:id="@+id/regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qqLoginButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="45dip"
+        android:layout_marginTop="5dip"
+        android:text="注册账号"
+        android:textSize="7pt"
+        android:textColor="#333355"
+        android:gravity="bottom"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qqLoginButton"
+        android:text="|"
+        android:textSize="7pt"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"/>
+
+    <ListView
+        android:id="@+id/loginQQList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/regist"
+        android:layout_alignLeft="@id/qqNum"
+        android:layout_alignRight="@id/qqNum"
+        android:layout_below="@id/qqNum"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"
+        android:divider="#aaaaaa"
+        android:dividerHeight="0px"/>
+
+</RelativeLayout>

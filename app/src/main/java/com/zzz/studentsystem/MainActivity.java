@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.Call;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,15 @@ import android.widget.Toast;
 
 import com.zzz.studentsystem.database.StudentDao;
 import com.zzz.studentsystem.domain.StudentInfo;
+import com.zzz.studentsystem.login.Login;
 import com.zzz.studentsystem.note.NoteEd;
 import com.zzz.studentsystem.phone_call.PhoneCall;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.zzz.studentsystem.R.id.tv_item_id;
 
 public class MainActivity extends AppCompatActivity {
     private EditText et_id;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.lv);
         dao=new StudentDao(this);
         lv.setAdapter(new MyAdapter());
+        login();
 
     }
     public void addStudent(View view){
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             info.setId(Integer.valueOf(id));
             info.setPhone(phone);
             info.setName(name);
+            info.setNote(null);
 
             if (dao.getStudentInfo(id).get("studentid")!=null){
                 Toast.makeText(MainActivity.this,"id冲突",Toast.LENGTH_SHORT).show();
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent myIntent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("num",tv_item_id.toString().trim());
+                    bundle.putString("num",tv_item_id.getText().toString().trim());
                     myIntent.putExtras(bundle);
                     myIntent.setClass(MainActivity.this,NoteEd.class);
                     MainActivity.this.startActivity(myIntent);
@@ -138,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
 
             return view;
         }
+
+
+
         @Override
         public int getCount() {
             return dao.getTotalCount();
@@ -153,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
             return position;
         }
 
+    }
+    public void login(){
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this,Login.class);
+        MainActivity.this.startActivity(intent);
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
