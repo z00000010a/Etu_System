@@ -1,5 +1,6 @@
 package com.zzz.studentsystem;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.zzz.studentsystem.database.StudentDao;
 import com.zzz.studentsystem.domain.StudentInfo;
+import com.zzz.studentsystem.note.NoteEd;
 import com.zzz.studentsystem.phone_call.PhoneCall;
 
 import java.util.Map;
@@ -91,11 +93,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = View.inflate(MainActivity.this,R.layout.item,null);
-            TextView tv_item_id = (TextView) view.findViewById(R.id.tv_item_id);
+            final TextView tv_item_id = (TextView) view.findViewById(R.id.tv_item_id);
             TextView tv_item_name = (TextView) view.findViewById(R.id.tv_item_name);
             final TextView tv_item_phone = (TextView) view.findViewById(R.id.tv_item_phone);
             ImageView iv_delete = (ImageView) view.findViewById(R.id.iv_delete);
             final Map<String,String> map = dao.getStudentInfo(position);
+
             iv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,11 +109,25 @@ public class MainActivity extends AppCompatActivity {
                     lv.setAdapter(new MyAdapter());
                 }
             });
+
             tv_item_phone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     call = new PhoneCall(tv_item_phone,MainActivity.this);
                     call.checkPermission();
+                }
+            });
+
+            tv_item_id.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("num",tv_item_id.toString().trim());
+                    myIntent.putExtras(bundle);
+                    myIntent.setClass(MainActivity.this,NoteEd.class);
+                    MainActivity.this.startActivity(myIntent);
                 }
             });
 
