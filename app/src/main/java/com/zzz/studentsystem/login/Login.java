@@ -1,6 +1,7 @@
 package com.zzz.studentsystem.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,10 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Created by Ares on 2017/11/17.
@@ -29,6 +28,7 @@ public class Login extends Activity{
     private Button login;
     private String u_nom;
     private String u_pwd;
+    private boolean start = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,19 +47,42 @@ public class Login extends Activity{
             public void onClick(View v) {
                 u_nom=nom.getText().toString().trim();
                 u_pwd=pwd.getText().toString().trim();
-                if (md5(u_nom,u_pwd).equals(getPwd())){
+
+                try {
+                    JSONObject userJSON = new JSONObject(getPwd());
+                    JSONArray users = new JSONArray(userJSON.getString("users"));
+                    for (int i = 0; i < users.length(); i++) {
+                        JSONObject user = users.getJSONObject(i);
+                        String nom = user.getString("username");
+                        String pwd = user.getString("password");
+                        if (u_nom.equals(nom)&&md5(u_nom,u_pwd).equals(pwd)) {
+                            start = true;
+                        };
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (start == true){
                     finish();
                 }else {
-                    Toast.makeText(Login.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this,"Les informations transmises n'ont pas permis de vous authentifier.",Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
     }
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+        System.exit(0);
+    }
 
     private String getPwd(){
-        InputStream is = Login.this.getClassLoader().getResourceAsStream("assets/" + "Password.txt");
+        InputStream is = Login.this.getClassLoader().getResourceAsStream("assets/" + "Password.json");
         int lenght = 0;
         String result = null;
         try {
