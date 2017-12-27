@@ -22,43 +22,33 @@
         android:layout_marginRight="30dip"
         android:layout_marginTop="15dip"
         android:background="@android:color/background_light"
+        android:hint="Identifiant"
         android:inputType="number"
         android:paddingLeft="50dip"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="账号"
-        android:textSize="8pt"
-        android:textColor="@android:color/darker_gray"
-        android:layout_alignLeft="@id/nom"
-        android:layout_alignTop="@id/nom"
-        android:layout_marginTop="9dip"
-        android:layout_marginLeft="3dip"
-        android:id="@+id/textView5"/>
 
     <EditText
         android:id="@+id/pwd"
         android:layout_width="match_parent"
         android:layout_height="40dip"
+        android:layout_below="@+id/nom"
         android:layout_marginLeft="30dip"
         android:layout_marginRight="30dip"
-        android:background="@android:color/background_light"
-        android:paddingLeft="50dip"
-        android:layout_below="@+id/nom"
         android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/delete_button_edit"/>
+        android:layout_toEndOf="@+id/delete_button_edit"
+        android:background="@android:color/background_light"
+        android:hint="Mot de passe"
+        android:inputType="textWebPassword"
+        android:paddingLeft="50dip"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="密码"
-        android:textSize="8pt"
-        android:textColor="@android:color/darker_gray"
         android:layout_alignLeft="@id/pwd"
         android:layout_alignTop="@id/pwd"
+        android:layout_marginLeft="3dip"
         android:layout_marginTop="9dip"
-        android:layout_marginLeft="3dip"/>
+        android:textColor="@android:color/darker_gray"
+        android:textSize="8pt"/>
 
     <ImageButton
         android:id="@+id/delete_button_edit"
@@ -79,7 +69,7 @@
         android:layout_marginTop="20dip"
 
         android:background="@android:color/holo_blue_dark"
-        android:text="登录"
+        android:text="SE CONNECTER"
         android:textColor="?attr/colorButtonNormal"/>
 
     <TextView

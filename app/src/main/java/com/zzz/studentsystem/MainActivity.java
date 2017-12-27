@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.zzz.studentsystem.R.id.tv_item_id;
-
 public class MainActivity extends AppCompatActivity {
     private EditText et_id;
     private EditText et_name;
@@ -61,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
         Matcher matcher_studentid = pattern.matcher(phone);
         Matcher matcher_phone = pattern.matcher(phone);
         if (!matcher_phone.matches()||!matcher_studentid.matches()){
-            Toast.makeText(MainActivity.this,"输入正确的格式",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"Le format d'entrée est incorrect",Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(id)||TextUtils.isEmpty(name)||TextUtils.isEmpty(phone)){
-            Toast.makeText(MainActivity.this,"数据不能为空",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"Ne peut pas être vide",Toast.LENGTH_SHORT).show();
             return;
         }else{
 
@@ -77,15 +75,15 @@ public class MainActivity extends AppCompatActivity {
             info.setNote(null);
 
             if (dao.getStudentInfo(id).get("studentid")!=null){
-                Toast.makeText(MainActivity.this,"id冲突",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"id confilt",Toast.LENGTH_SHORT).show();
             }else if(dao.getStudentInfo(name).get("name")!=null){
-                Toast.makeText(MainActivity.this,"name冲突",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"name confilt",Toast.LENGTH_SHORT).show();
             }else if (dao.getStudentInfo(phone).get("phone")!=null){
-                Toast.makeText(MainActivity.this,"phone冲突",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"phone confilt",Toast.LENGTH_SHORT).show();
             }else{
             boolean result = dao.add(info);
             if (result){
-                Toast.makeText(MainActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Ajouté avec succès",Toast.LENGTH_SHORT).show();
                 lv.setAdapter(new MyAdapter());
                 }
             }
@@ -108,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     boolean result = dao.delete(map.get("studentid"));
                     if (result){
-                        Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Supprimé avec succès",Toast.LENGTH_SHORT).show();
                     }
                     lv.setAdapter(new MyAdapter());
                 }
